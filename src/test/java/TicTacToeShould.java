@@ -51,10 +51,7 @@ public class TicTacToeShould {
         );
 
         char player = 'o';
-        gamesWinningOnRow.forEach(game -> {
-            boolean hasWinner = hasWinner(game, player);
-            assertThat(hasWinner).isTrue();
-        });
+        assertAllGamesHaveWinner(gamesWinningOnRow, player);
 
     }
 
@@ -76,13 +73,35 @@ public class TicTacToeShould {
         );
 
         char player = 'x';
-        gamesWinningOnColumn.forEach(game -> {
-            boolean hasWinner = hasWinner(game, player);
-            assertThat(hasWinner).isTrue();
-        });
+        assertAllGamesHaveWinner(gamesWinningOnColumn, player);
 
     }
 
+    @Test
+    public void winOnAnyDiagonal() throws Exception {
+        //given
+        List<String> gamesWinningOnDiagonal = Arrays.asList(
+                "xoo" +
+                "oxo" +
+                "xox",
+
+                "x-x" +
+                "-xo" +
+                "xoo"
+        );
+
+        char player = 'x';
+        assertAllGamesHaveWinner(gamesWinningOnDiagonal, player);
+
+    }
+
+
+    private void assertAllGamesHaveWinner(List<String> gamesWinningOnRow, char player) {
+        gamesWinningOnRow.forEach(game -> {
+            boolean hasWinner = hasWinner(game, player);
+            assertThat(hasWinner).isTrue();
+        });
+    }
 
     private boolean hasWinner(String game, char player) {
         char[] chars = game.toCharArray();
@@ -96,9 +115,15 @@ public class TicTacToeShould {
                 new int[]{1, 4, 7},
                 new int[]{2, 5, 8}
         );
+        List<int[]> diagonals = Arrays.asList(
+                new int[]{0, 4, 8},
+                new int[]{2, 4, 6}
+        );
         return rows.stream().
                 anyMatch(row -> playerOccupies(player, chars, row)) ||
                 columns.stream().
+                        anyMatch(row -> playerOccupies(player, chars, row)) ||
+                diagonals.stream().
                         anyMatch(row -> playerOccupies(player, chars, row));
     }
 
