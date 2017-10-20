@@ -117,7 +117,7 @@ public class TicTacToeShould {
     }
 
     private boolean hasWinner(String game, char player) {
-        char[] chars = game.toCharArray();
+        char[] cases = game.toCharArray();
         List<int[]> rows = Arrays.asList(
                 new int[]{0, 1, 2},
                 new int[]{3, 4, 5},
@@ -133,12 +133,12 @@ public class TicTacToeShould {
                 new int[]{2, 4, 6}
         );
         return Stream.of(rows, columns, diagonals)
-                .flatMap(Stream::of)
-                .anyMatch(combination -> playerOccupies(player, chars, combination));
+                .flatMap(combinations -> combinations.stream())
+                .anyMatch(combination -> playerOccupies(player, cases, combination));
     }
 
-    private boolean playerOccupies(char player, char[] cases, int[] row) {
-        return Arrays.stream(row).allMatch(position -> cases[position] == player);
+    private boolean playerOccupies(char player, char[] cases, int[] combination) {
+        return Arrays.stream(combination).allMatch(position -> cases[position] == player);
     }
 
     /*
