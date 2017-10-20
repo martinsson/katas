@@ -21,6 +21,18 @@ public class TicTacToeShould {
     }
 
     @Test
+    public void draw() throws Exception {
+        String game =
+                "xox" +
+                "oox" +
+                "xxo";
+
+        char player = 'x';
+        boolean hasAWinner = hasWinner(game, player);
+        assertThat(hasAWinner).isFalse();
+    }
+
+    @Test
     public void winOnFirstRowXXX() throws Exception {
         //given
         String game =
