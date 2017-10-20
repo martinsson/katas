@@ -42,7 +42,11 @@ public class TicTacToeShould {
 
                 "x-x" +
                 "ooo" +
-                "-x-"
+                "-x-",
+
+                "x-x" +
+                "-x-" +
+                "ooo"
         );
 
         gamesWinningOnRow.forEach(game -> {
@@ -57,7 +61,10 @@ public class TicTacToeShould {
         char[] chars = game.toCharArray();
         int[] row = {0, 1, 2};
         int[] secondRow = {3, 4, 5};
-        return playerOccupies(player, chars, row) || playerOccupies(player, chars, secondRow);
+        int[] thirdRow = {6, 7, 8};
+        return playerOccupies(player, chars, row) ||
+                playerOccupies(player, chars, secondRow) ||
+                playerOccupies(player, chars, thirdRow);
     }
 
     private boolean playerOccupies(char valueOfCase, char[] chars, int[] row) {
