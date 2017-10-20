@@ -3,6 +3,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -119,12 +120,9 @@ public class TicTacToeShould {
                 new int[]{0, 4, 8},
                 new int[]{2, 4, 6}
         );
-        return rows.stream().
-                anyMatch(row -> playerOccupies(player, chars, row)) ||
-                columns.stream().
-                        anyMatch(row -> playerOccupies(player, chars, row)) ||
-                diagonals.stream().
-                        anyMatch(row -> playerOccupies(player, chars, row));
+        return Stream.of(rows, columns, diagonals)
+                .flatMap(Stream::of)
+                .anyMatch(combination -> playerOccupies(player, chars, combination));
     }
 
     private boolean playerOccupies(char player, char[] cases, int[] row) {
