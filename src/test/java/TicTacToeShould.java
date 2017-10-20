@@ -11,13 +11,12 @@ public class TicTacToeShould {
                 "---";
 
         char player = 'x';
-
         boolean hasAWinner = hasWinner(game, player);
         assertThat(hasAWinner).isFalse();
     }
 
     @Test
-    public void hasWinnerIsOneCombinationOfXXX() throws Exception {
+    public void winOnFirstRowXXX() throws Exception {
         //given
         String game =
                 "xxx" +
@@ -25,18 +24,12 @@ public class TicTacToeShould {
                 "-o-";
 
         char player = 'x';
-
-        //when
         boolean hasWinner = hasWinner(game, player);
-
-        //then
         assertThat(hasWinner).isTrue();
-
     }
 
-
     @Test
-    public void hasWinnerIsOneCombinationOfOOO() throws Exception {
+    public void winOnFirstRow000() throws Exception {
         //given
         String game =
                 "ooo" +
@@ -44,20 +37,35 @@ public class TicTacToeShould {
                 "-x-";
 
         char player = 'o';
-
-        //when
         boolean hasWinner = hasWinner(game, player);
-
-        //then
         assertThat(hasWinner).isTrue();
-
     }
 
-    private boolean hasWinner(String game, char valueOfCase) {
+    @Test
+    public void winOnSecondRow000() throws Exception {
+        //given
+        String game =
+                "x-x" +
+                "ooo" +
+                "-x-";
+
+        char player = 'o';
+        boolean hasWinner = hasWinner(game, player);
+        assertThat(hasWinner).isTrue();
+    }
+
+
+    private boolean hasWinner(String game, char player) {
         char[] chars = game.toCharArray();
-        return caseAtPosIsOccupiedBy(0, valueOfCase, chars) &&
-                caseAtPosIsOccupiedBy(1, valueOfCase, chars) &&
-                caseAtPosIsOccupiedBy(2, valueOfCase, chars);
+        int[] row = {0, 1, 2};
+        int[] secondRow = {3, 4, 5};
+        return playerOccupies(player, chars, row) || playerOccupies(player, chars, secondRow);
+    }
+
+    private boolean playerOccupies(char valueOfCase, char[] chars, int[] row) {
+        return caseAtPosIsOccupiedBy(row[0], valueOfCase, chars) &&
+                caseAtPosIsOccupiedBy(row[1], valueOfCase, chars) &&
+                caseAtPosIsOccupiedBy(row[2], valueOfCase, chars);
     }
 
     private boolean caseAtPosIsOccupiedBy(int pos, char valueOfCase, char[] cases) {
