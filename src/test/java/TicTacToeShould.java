@@ -110,10 +110,9 @@ public class TicTacToeShould {
 
 
     private void assertAllGamesHaveWinner(List<String> gamesWinningOnRow, char player) {
-        gamesWinningOnRow.forEach(game -> {
-            boolean hasWinner = hasWinner(game, player);
-            assertThat(hasWinner).isTrue();
-        });
+        gamesWinningOnRow.forEach(
+                game -> assertThat(hasWinner(game, player)).isTrue()
+        );
     }
 
     private boolean hasWinner(String game, char player) {
