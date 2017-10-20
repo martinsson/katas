@@ -50,13 +50,39 @@ public class TicTacToeShould {
                 "ooo"
         );
 
+        char player = 'o';
         gamesWinningOnRow.forEach(game -> {
-            char player = 'o';
             boolean hasWinner = hasWinner(game, player);
             assertThat(hasWinner).isTrue();
         });
 
     }
+
+    @Test
+    public void winOnAnyColumn() throws Exception {
+        //given
+        List<String> gamesWinningOnColumn = Arrays.asList(
+                "xoo" +
+                "x-o" +
+                "xo-",
+
+                "oxo" +
+                "-x-" +
+                "-xo",
+
+                "x-x" +
+                "-ox" +
+                "oox"
+        );
+
+        char player = 'x';
+        gamesWinningOnColumn.forEach(game -> {
+            boolean hasWinner = hasWinner(game, player);
+            assertThat(hasWinner).isTrue();
+        });
+
+    }
+
 
     private boolean hasWinner(String game, char player) {
         char[] chars = game.toCharArray();
@@ -65,8 +91,15 @@ public class TicTacToeShould {
                 new int[]{3, 4, 5},
                 new int[]{6, 7, 8}
         );
+        List<int[]> columns = Arrays.asList(
+                new int[]{0, 3, 6},
+                new int[]{1, 4, 7},
+                new int[]{2, 5, 8}
+        );
         return rows.stream().
-                anyMatch(row -> playerOccupies(player, chars, row));
+                anyMatch(row -> playerOccupies(player, chars, row)) ||
+                columns.stream().
+                        anyMatch(row -> playerOccupies(player, chars, row));
     }
 
     private boolean playerOccupies(char player, char[] cases, int[] row) {
