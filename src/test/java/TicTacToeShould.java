@@ -15,7 +15,7 @@ public class TicTacToeShould {
                 "---";
 
         char player = 'x';
-        boolean hasAWinner = hasWinner(game, player);
+        boolean hasAWinner = playerWon(game, player);
         assertThat(hasAWinner).isFalse();
     }
 
@@ -27,7 +27,7 @@ public class TicTacToeShould {
                 "xxo";
 
         char player = 'x';
-        boolean hasAWinner = hasWinner(game, player);
+        boolean hasAWinner = playerWon(game, player);
         assertThat(hasAWinner).isFalse();
     }
 
@@ -40,7 +40,7 @@ public class TicTacToeShould {
                 "-o-";
 
         char player = 'x';
-        boolean hasWinner = hasWinner(game, player);
+        boolean hasWinner = playerWon(game, player);
         assertThat(hasWinner).isTrue();
     }
 
@@ -110,11 +110,11 @@ public class TicTacToeShould {
 
     private void assertAllGamesHaveWinner(List<String> gamesWinningOnRow, char player) {
         gamesWinningOnRow.forEach(
-                game -> assertThat(hasWinner(game, player)).isTrue()
+                game -> assertThat(playerWon(game, player)).isTrue()
         );
     }
 
-    private boolean hasWinner(String game, char player) {
+    private boolean playerWon(String game, char player) {
         char[] cases = game.toCharArray();
         Stream<Stream<Integer>> winningCombinations = Stream.of(
                 // rows
@@ -129,7 +129,11 @@ public class TicTacToeShould {
                 Stream.of(0, 4, 8),
                 Stream.of(2, 4, 6)
         );
-        return winningCombinations.anyMatch(winningCombination -> winningCombination.allMatch(position -> cases[position] == player));
+        return winningCombinations.anyMatch(combination -> playerOccupies(player, cases, combination));
+    }
+
+    private boolean playerOccupies(char player, char[] cases, Stream<Integer> combination) {
+        return combination.allMatch(position -> cases[position] == player);
     }
 
     /*
