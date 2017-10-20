@@ -117,27 +117,24 @@ public class TicTacToeShould {
 
     private boolean hasWinner(String game, char player) {
         char[] cases = game.toCharArray();
-        List<int[]> rows = Arrays.asList(
-                new int[]{0, 1, 2},
-                new int[]{3, 4, 5},
-                new int[]{6, 7, 8}
+        Stream<Stream<Integer>> rows = Stream.of(
+                // rows
+                Stream.of(0, 1, 2),
+                Stream.of(3, 4, 5),
+                Stream.of(6, 7, 8),
+                // columns
+                Stream.of(0, 3, 6),
+                Stream.of(1, 4, 7),
+                Stream.of(2, 5, 8),
+                // diagonals
+                Stream.of(0, 4, 8),
+                Stream.of(2, 4, 6)
         );
-        List<int[]> columns = Arrays.asList(
-                new int[]{0, 3, 6},
-                new int[]{1, 4, 7},
-                new int[]{2, 5, 8}
-        );
-        List<int[]> diagonals = Arrays.asList(
-                new int[]{0, 4, 8},
-                new int[]{2, 4, 6}
-        );
-        return Stream.of(rows, columns, diagonals)
-                .flatMap(combinations -> combinations.stream())
-                .anyMatch(combination -> playerOccupies(player, cases, combination));
+        return rows.anyMatch(combination -> playerOccupies(player, cases, combination));
     }
 
-    private boolean playerOccupies(char player, char[] cases, int[] combination) {
-        return Arrays.stream(combination).allMatch(position -> cases[position] == player);
+    private boolean playerOccupies(char player, char[] cases, Stream<Integer> combination) {
+        return combination.allMatch(position -> cases[position] == player);
     }
 
     /*
