@@ -77,5 +77,15 @@ public class TicTacToeShould {
         return cases[pos] == valueOfCase;
     }
 
+    /*
+     * finding the datastructure
+     *  - started with boolean
+     *  - needed to introduce string or array of cases in order to describe the problem on third test (winning game)
+     *
+     *  Finding the algorithm, refactor on duplication
+     *  - rule of 3
+     *
+     *  Primitives all over the place so far (before creating any classes)
+     */
 
 }
