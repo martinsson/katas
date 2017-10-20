@@ -1,5 +1,8 @@
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TicTacToeShould {
@@ -28,32 +31,27 @@ public class TicTacToeShould {
         assertThat(hasWinner).isTrue();
     }
 
-    @Test
-    public void winOnFirstRow000() throws Exception {
-        //given
-        String game =
-                "ooo" +
-                "x-x" +
-                "-x-";
-
-        char player = 'o';
-        boolean hasWinner = hasWinner(game, player);
-        assertThat(hasWinner).isTrue();
-    }
 
     @Test
-    public void winOnSecondRow000() throws Exception {
+    public void winOnAnyRow() throws Exception {
         //given
-        String game =
+        List<String> gamesWinningOnRow = Arrays.asList(
+                "ooo" +
+                "x-x" +
+                "-x-",
+
                 "x-x" +
                 "ooo" +
-                "-x-";
+                "-x-"
+        );
 
-        char player = 'o';
-        boolean hasWinner = hasWinner(game, player);
-        assertThat(hasWinner).isTrue();
+        gamesWinningOnRow.forEach(game -> {
+            char player = 'o';
+            boolean hasWinner = hasWinner(game, player);
+            assertThat(hasWinner).isTrue();
+        });
+
     }
-
 
     private boolean hasWinner(String game, char player) {
         char[] chars = game.toCharArray();
